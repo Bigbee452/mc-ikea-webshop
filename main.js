@@ -17,7 +17,7 @@ function renderCategory(category) {
                 </div>
                 <!-- Product actions-->
                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                    <div class="text-center"><a class="btn btn-outline-dark mt-auto view-options" data-id="${category.category_id}" href="#">View options</a></div>
                 </div>
             </div>
         </div>
@@ -76,4 +76,29 @@ async function loadCategories() {
     }
 }
 
+async function loadOptions(categoryId) {
+    try {
+        const url = new URL('http://192.168.0.254:7255/products')
+        url.searchParams.set('categoryid', categoryId)
+        const responseProducts = await fetch(url); // Adjust URL if needed
+        const products = await responseProducts.json();
+
+        const container = document.getElementById('products');
+        container.innerHTML = ''; // Clear container
+
+        products.forEach(product => {
+        container.appendChild(renderProduct(product));
+        });
+    } catch (error) {
+        console.error('Error loading categories:', error);
+    }
+}
+
 window.addEventListener('DOMContentLoaded', loadCategories);
+
+document.addEventListener('click', function (event) {
+  if (event.target.classList.contains('view-options')) {
+    const categoryId = event.target.dataset.id;
+    loadOptions(categoryId);
+  }
+});
