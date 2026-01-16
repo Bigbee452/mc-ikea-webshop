@@ -7,7 +7,7 @@ function renderCategory(category) {
         <div class="col mb-5">
             <div class="card h-100">
                 <!-- Product image-->
-                <img class="card-img-top" src="assets/images/${category.image_url}" alt="..." />
+                <img class="card-img-top" src="assets/images/products/${category.image_url}" alt="..." />
                 <!-- Product details-->
                 <div class="card-body p-4">
                     <div class="text-center">
@@ -34,7 +34,7 @@ function renderProduct(product) {
         <div class="col mb-5">
             <div class="card h-100">
                 <!-- Product image-->
-                <img class="card-img-top" src="assets/images/${product.image_url}" alt="..." />
+                <img class="card-img-top" src="assets/images/products/${product.image_url}" alt="..." />
                 <!-- Product details-->
                 <div class="card-body p-4">
                     <div class="text-center">
@@ -57,9 +57,9 @@ function renderProduct(product) {
   // Function to fetch and display all products
 async function loadCategories() {
     try {
-        const response = await fetch('http://192.168.0.254:7255/categories'); // Adjust URL if needed
+        const response = await fetch('http://192.168.0.250:7864/categories'); // Adjust URL if needed
         const categories = await response.json();
-        const responseProducts = await fetch('http://192.168.0.254:7255/products'); // Adjust URL if needed
+        const responseProducts = await fetch('http://192.168.0.250:7864/products'); // Adjust URL if needed
         const products = await responseProducts.json();
 
         const container = document.getElementById('products');
@@ -78,8 +78,8 @@ async function loadCategories() {
 
 async function loadOptions(categoryId) {
     try {
-        const url = new URL('http://192.168.0.254:7255/products')
-        url.searchParams.set('categoryid', categoryId)
+        const url = new URL('http://192.168.0.250:7864/products')
+        url.searchParams.set('category', categoryId)
         const responseProducts = await fetch(url); // Adjust URL if needed
         const products = await responseProducts.json();
 
